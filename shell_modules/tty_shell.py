@@ -64,7 +64,7 @@ def parse(cmd, conn):
     try:
         parser = argparse.ArgumentParser(description=description)
 
-        parser.add_argument('-v', '--version', type=str, choices['python', 'python3'] help='python version to run command')
+        parser.add_argument('-v', '--version', type=str, choices['python', 'python3'], help='python version to run command')
         parser.add_argument('-s', '--show', action='store_true', help='show command(s) being run')
 
         if len(cmd) == 0:
