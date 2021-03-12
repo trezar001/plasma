@@ -2,7 +2,7 @@
 
 import shell_modules.sample as sample
 import shell_modules.upgrade as upgrade
-
+import shell_modules.tty_shell as tty
 
 def get_modules():
-     return [sample, upgrade]
+     return [sample, upgrade, tty]
