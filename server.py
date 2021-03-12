@@ -3,6 +3,7 @@ import threading
 import sys
 import modules
 import connection
+import readline
 from colorama import Fore, init
 
 #make sure colors work properly in Windows
@@ -15,9 +16,7 @@ def plasma():
     global ismodule
 
     while True:
-        #print prompt
-        print(Fore.LIGHTCYAN_EX + 'plasma> ' + Fore.RESET, end='')
-        cmd = input()
+        cmd = input(Fore.LIGHTCYAN_EX + 'plasma> ' + Fore.RESET)
 
         #execute selected module
         for module in modules.get_modules():

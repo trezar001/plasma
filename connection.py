@@ -2,6 +2,7 @@ import socket
 import time
 import sys
 import shell_modules
+import readline
 from colorama import Fore, init
 
 #make sure colors work properly in Windows
