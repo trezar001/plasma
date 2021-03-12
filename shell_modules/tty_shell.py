@@ -23,8 +23,10 @@ def execute(cmd, conn, isColor):
     if parse(cmd, conn):
         try: 
             command(conn, isColor)
-        except Exception as e:
-            print(e)
+        except:
+            conn.send(str.encode('\n'))
+            text = connection.recieve(conn)
+            return text[1]
             print_error('bad command')
 
 #what happens when module is run
