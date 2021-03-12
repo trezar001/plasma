@@ -24,10 +24,11 @@ def execute(cmd, conn, isColor):
         try: 
             return command(conn, isColor)
         except:
-            conn.send(str.encode('\n'))
-            text = connection.recieve(conn)
-            return text[1]
             print_error('bad command')
+    else:
+        conn.send(str.encode('\n'))
+        text = connection.recieve(conn)
+        return text[1]
 
 #what happens when module is run
 def command(conn, isColor):
