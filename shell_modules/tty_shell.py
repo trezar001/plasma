@@ -73,7 +73,14 @@ def parse(cmd, conn):
 
         args = parser.parse_args(cmd)
         return True
-    except:
+    except:   
         conn.send(str.encode('\n'))
-        print(connection.recieve(conn), end='')
+        text = connection.recieve(conn)
+        text[0] = text[0].replace('\r', '\n')
+        
+        if isColor:
+            print(Fore.LIGHTMAGENTA_EX + text[0] + Fore.RESET)
+        else:
+            print(text[0])
+
         return False
