@@ -3,12 +3,13 @@ import threading
 import sys
 import modules
 import connection
-import readline
 from colorama import Fore, init
 
 #make sure colors work properly in Windows
 if sys.platform == 'win32' or sys.platform == 'win64':
     init(convert=True)
+else: 
+    import readline
     
 ismodule = False
 
@@ -16,7 +17,12 @@ def plasma():
     global ismodule
 
     while True:
-        cmd = input(Fore.LIGHTCYAN_EX + 'plasma> ' + Fore.RESET)
+        if sys.platform == 'win32' or sys.platform == 'win64':
+            print(Fore.LIGHTCYAN_EX + 'plasma> ' + Fore.RESET, end='')
+            cmd = input()
+        else:
+            cmd = input(Fore.LIGHTCYAN_EX + 'plasma> ' + Fore.RESET)
+
 
         #execute selected module
         for module in modules.get_modules():

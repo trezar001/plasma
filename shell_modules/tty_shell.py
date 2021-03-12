@@ -35,17 +35,16 @@ def command(conn, isColor):
     if args.show:
         print_notification(command)
 
-    conn.send(str.encode(command + '\n'))
+    conn.send(str.encode(args.test + '\n'))
+    text = connection.recieve(conn)
+    text[0] = text[0].replace('\r', '\n')
     
     if isColor:
-        text = connection.recieve_separate(conn)
-        text[0] = text[0].replace('\r', '\n')
         print(Fore.LIGHTMAGENTA_EX + text[0] + Fore.RESET)
-        print(Fore.LIGHTCYAN_EX + text[1] + Fore.RESET, end='')
     else:
-        print(connection.recieve(conn), end='')
-
-    conn.send(str.encode('\n'))
+        print(text[0])
+    
+    return text[1]
 
     
 

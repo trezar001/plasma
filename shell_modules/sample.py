@@ -22,7 +22,7 @@ def execute(cmd, conn, isColor):
     cmd = cmd.split(cmdstring)[1].lstrip().split()
     if parse(cmd, conn):
         try: 
-            command(conn, isColor)
+            return command(conn, isColor)
         except Exception as e:
             print(e)
             print_error('bad command')
@@ -36,16 +36,16 @@ def command(conn, isColor):
         print_notification(command)
 
     conn.send(str.encode(args.test + '\n'))
+    text = connection.recieve(conn)
+    text[0] = text[0].replace('\r', '\n')
 
     if isColor:
-        text = connection.recieve_separate(conn)
-        text[0] = text[0].replace('\r', '\n')
         print(Fore.LIGHTMAGENTA_EX + text[0] + Fore.RESET)
-        print(Fore.LIGHTCYAN_EX + text[1] + Fore.RESET, end='')
     else:
-        print(connection.recieve(conn), end='')
+        print(text[0])
+    
+    return text[1]
 
-    conn.send(str.encode('\n'))
 
 #just some color coding 
 def print_error(error):
