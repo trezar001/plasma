@@ -22,7 +22,7 @@ def execute(cmd, conn, isColor):
     cmd = cmd.split(cmdstring)[1].lstrip().split()
     if parse(cmd, conn):
         try: 
-            command(conn, isColor)
+            return command(conn, isColor)
         except:
             print_error('bad command')
     else:
