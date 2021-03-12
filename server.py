@@ -5,7 +5,8 @@ import modules
 import connection
 from colorama import Fore, init
 
-if sys.platform == 'win32' or sys.platform == 'win62':
+#make sure colors work properly in Windows
+if sys.platform == 'win32' or sys.platform == 'win64':
     init(convert=True)
 ismodule = False
 
@@ -13,15 +14,18 @@ def plasma():
     global ismodule
 
     while True:
+        #print prompt
         print(Fore.LIGHTCYAN_EX + 'plasma> ' + Fore.RESET, end='')
         cmd = input()
 
+        #execute selected module
         for module in modules.get_modules():
             if cmd.split(' ')[0] == module.cmdstring:
                 module.execute(cmd)
                 ismodule = True
                 break
 
+        #if command is not a module check for built in commands        
         if not ismodule:
             if cmd == 'help':
                 show_help()
@@ -33,7 +37,8 @@ def plasma():
                 print(Fore.LIGHTRED_EX + '[!] Invalid command. Enter \'help\' to see a list of available commands' + Fore.RESET)
         
         ismodule = False
-             
+
+#close any open connections and exit gracefully          
 def exit_program():
     for i,conn in enumerate(connection.connections):
         if conn is not None:
@@ -54,6 +59,7 @@ def exit_program():
 
     sys.exit(0)
 
+#display help message for commands
 def show_help():
     print(Fore.LIGHTCYAN_EX + '\n-------- Commands --------' + Fore.RESET)
     for module in modules.get_modules():

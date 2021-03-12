@@ -6,18 +6,22 @@ import connection
 import threading
 import argparse
 
+#make sure colors work properly in Windows
 if sys.platform == 'win32' or sys.platform == 'win64':
     init(convert=True)
 
 host = ''
 port = ''
-args = ''
 sockets = []
 ports = []
- 
+
+args = ''
 description = 'start listener on specified port'
+
+#this is what's used to actually call the module in server.py
 cmdstring = 'listener'
 
+#run module
 def execute(cmd):
     cmd = cmd.split(cmdstring)[1].lstrip().split()
     if parse(cmd):
@@ -26,22 +30,26 @@ def execute(cmd):
         except Exception as e:
             print_error(e)
 
+#what happens when module is run
 def command():
     global sockets
     global ports
 
+    #attempt to start a listener if port is available
     if args.action == 'start':
         if port in ports:
             print_error('There is already a listener on that port!')
         else:
             bind()
 
+    #kill a listener
     elif args.action == 'stop':
         try:
             if port in ports:
                 i = ports.index(port)
-                sockets[i].close()
 
+                #cleanup time!
+                sockets[i].close()
                 del sockets[i]
                 del ports[i]
 
@@ -52,12 +60,14 @@ def command():
         except Exception as e:
             print_error(e)
 
+    #show all listeners in pretty format
     elif args.action == 'show':
         print(Fore.LIGHTCYAN_EX + '\n--------- Ports ---------\n' + Fore.RESET, end='')
         for p in ports:
             print(Fore.LIGHTYELLOW_EX + '--> ' + str(p) + Fore.RESET)
         print(Fore.LIGHTCYAN_EX + '-------------------------\n' + Fore.RESET)
 
+#bind port and socket
 def bind():
     global sockets
     global ports
@@ -75,6 +85,7 @@ def bind():
         ports.append(port)
         s.settimeout(1)
 
+        #use threads!
         t = threading.Thread(target=listen, args=(s,))
         t.daemon = True
         t.start()
@@ -84,6 +95,7 @@ def bind():
         print_error('Error binding socket! Is socket already listening?')
         return
 
+#what happens once we start the listeners
 def listen(s):
     global sockets
     global ports
@@ -92,9 +104,11 @@ def listen(s):
 
     while True:
         try:
+            #can't get in
             if(s._closed):
                 break
-            
+
+            #connect to host
             try:
                 conn, address = s.accept()
             except:
@@ -106,15 +120,17 @@ def listen(s):
             connection.addresses.append(address)
             ip = conn.getsockname()[0]
    
+            #notify upon successful connection
             print(Fore.LIGHTYELLOW_EX +  "\n[+] Connection recieved from " + address[0] + ' on port ' + str(s.getsockname()[1]) + Fore.LIGHTCYAN_EX + '\n' + Fore.RESET, end='')
 
+            #run some commands to get ourselves a nice little prompt and record hostname
             try:
-                #hostname = socket.gethostbyaddr(ip)[0]
                 connection.recieve_immediately(conn)
                 conn.send(str.encode('hostname\n'))
                 hostname = connection.recieve_immediately(conn).split('\n')[0]
                 hostname = hostname.strip('\r')
 
+            #couldn't get the hostname :/
             except:
                 print_error('Error getting hostname for ' + address[0] + '!')
                 hostname = 'unknown'
@@ -125,12 +141,14 @@ def listen(s):
             print_error(e)
             pass
 
+#just some color coding 
 def print_error(error):
     print(Fore.LIGHTRED_EX + '[!] ' + error + Fore.RESET)
 
 def print_notification(notification):
     print(Fore.LIGHTYELLOW_EX + '[+] ' + notification + Fore.RESET)
 
+#handle argument parsing for the module
 def parse(cmd):
     global port
     global args
