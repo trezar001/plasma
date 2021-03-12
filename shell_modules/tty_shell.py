@@ -38,7 +38,7 @@ def command(conn, isColor):
     if args.show:
         print_notification(command)
 
-    conn.send(str.encode(args.test + '\n'))
+    conn.send(str.encode(command + '\n'))
     text = connection.recieve(conn)
     text[0] = text[0].replace('\r', '\n')
     
