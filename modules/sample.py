@@ -3,7 +3,7 @@ import argparse
 import sys
 
 #make sure colors work properly in Windows
-if sys.platform == 'win32' or sys.platform == 'win62':
+if sys.platform == 'win32' or sys.platform == 'win64':
     init(convert=True)
 
 args = ''

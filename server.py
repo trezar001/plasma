@@ -8,6 +8,7 @@ from colorama import Fore, init
 #make sure colors work properly in Windows
 if sys.platform == 'win32' or sys.platform == 'win64':
     init(convert=True)
+    
 ismodule = False
 
 def plasma():

