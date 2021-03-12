@@ -40,9 +40,10 @@ def print_notification(notification):
 #handle argument parsing for the module
 def parse(cmd):
     global args
-
+    global description
+    
     try:
-        parser = argparse.ArgumentParser(usage='select number')
+        parser = argparse.ArgumentParser(description=description)
 
         parser.add_argument(dest='number', type=int, help='number of client to interact with')
 

@@ -69,9 +69,10 @@ def print_notification(notification):
 #handle argument parsing for the module
 def parse(cmd):
     global args
-
+    global description
+    
     try:
-        parser = argparse.ArgumentParser()
+        parser = argparse.ArgumentParser(description=description)
         
         group = parser.add_mutually_exclusive_group()
         group.add_argument('-a', '--all', dest='action', action='store_const',const='killall', help='kill all clients')

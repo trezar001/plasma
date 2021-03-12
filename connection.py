@@ -21,7 +21,7 @@ def send_commands(conn, index):
         try:
             cmd = input()
             #normal stuff
-            if cmd == 'quit' or cmd == 'exit':
+            if cmd == 'plasma-quit' or cmd == 'plasma-exit':
                 print(Fore.LIGHTYELLOW_EX + '[+] Ending interaction with ' + str(addresses[index][0]) + Fore.RESET)
                 break
             elif cmd == '':

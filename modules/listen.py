@@ -152,9 +152,10 @@ def print_notification(notification):
 def parse(cmd):
     global port
     global args
+    global description
 
     try:
-        parser = argparse.ArgumentParser()
+        parser = argparse.ArgumentParser(description=description)
         subparsers = parser.add_subparsers(help='add or remove listeners')
 
         add = subparsers.add_parser('add', help='add a listener')
