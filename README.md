@@ -20,7 +20,7 @@ plasma> listener add 4444
 ```
 ![listener](https://user-images.githubusercontent.com/10237135/111933512-034c6d80-8a96-11eb-8213-ba5bc97c0458.PNG)</br></br>
 In this case, we'll use client.py on the local machine to connect back to our server on the port we opened previously. Usage of client.py can be found later in this document.</br>
-![conn](https://user-images.githubusercontent.com/10237135/111932248-6ab4ee00-8a93-11eb-89e9-6c252ce5c470.PNG)</br></br>
+![111932248-6ab4ee00-8a93-11eb-89e9-6c252ce5c470](https://user-images.githubusercontent.com/10237135/111933770-879ef080-8a96-11eb-95c6-d949b7ac814e.png)</br></br>
 With the 'list' command module, we can view the connected clients. Here we can see the connection we just established being listed.
 ```
 plasma> list
