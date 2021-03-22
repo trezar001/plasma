@@ -13,12 +13,12 @@ We start first start up the program.
 ```
 python server.py
 ```
-![plasma](https://user-images.githubusercontent.com/10237135/111931840-81a71080-8a92-11eb-845f-21f77d04d647.PNG)</br></br>
+![plasma](https://user-images.githubusercontent.com/10237135/111933464-ea43bc80-8a95-11eb-93b1-939f13af7647.PNG)</br></br>
 We use the 'listener' command module to start a listener on port 4444.
 ```
 plasma> listener add 4444
 ```
-![listener](https://user-images.githubusercontent.com/10237135/111932231-625cb300-8a93-11eb-9d11-bcc11036546a.PNG)</br></br>
+![listener](https://user-images.githubusercontent.com/10237135/111933512-034c6d80-8a96-11eb-8213-ba5bc97c0458.PNG)</br></br>
 In this case, we'll use client.py on the local machine to connect back to our server on the port we opened previously. Usage of client.py can be found later in this document.</br>
 ![conn](https://user-images.githubusercontent.com/10237135/111932248-6ab4ee00-8a93-11eb-89e9-6c252ce5c470.PNG)</br></br>
 With the 'list' command module, we can view the connected clients. Here we can see the connection we just established being listed.
@@ -35,7 +35,7 @@ Here, running the in-shell module 'p-help' displays a help message. Running 'p-l
 ```
 C:\Users\treza\Desktop\Code\github\plasma> p-help
 ```
-![help](https://user-images.githubusercontent.com/10237135/111932273-77d1dd00-8a93-11eb-97b8-59a2c14ceabe.PNG)</br>
+![help](https://user-images.githubusercontent.com/10237135/111933546-152e1080-8a96-11eb-8185-d0f8c9cd9013.PNG)</br>
 
 ## client.py
 This is a custom client with some added functionality, although it is not necessary to use plasma. Plasma can recieve connections from any normal methods of sending shells including that from netcat, powershell, etc. This client has the added feature of being able to automatically attempt to restore connection with the server if the connection is lost.
